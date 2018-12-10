@@ -17,6 +17,8 @@ class CommentsController < ApplicationController
     comment.delete
     redirect_to comment.board, flash: { notice: 'コメントが削除されました' }
   end
+  
+  private
 
   def comment_params
     params.require(:comment).permit(:board_id, :name, :comment)

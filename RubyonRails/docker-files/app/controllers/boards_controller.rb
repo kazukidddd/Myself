@@ -1,11 +1,12 @@
 class BoardsController < ApplicationController
+    # リファクタリング
   before_action :set_target_board, only: %i[show edit update destroy]
-   
+
   def index
     @boards = params[:tag_id].present? ? Tag.find(params[:tag_id]).boards : Board.all
     @boards = @boards.page(params[:page])
   end
-  
+
   def new
     @board = Board.new(flash[:board])
   end
@@ -41,19 +42,19 @@ class BoardsController < ApplicationController
       }
     end
   end
-  
+
   def destroy
     @board.destroy
-    
+
     redirect_to boards_path, flash: { notice: "「#{@board.title}」の掲示板が削除されました"}
   end
-  
+
   private
 
   def board_params
     params.require(:board).permit(:name, :title, :body, tag_ids: [])
   end
-  
+
   def set_target_board
     @board = Board.find(params[:id])
   end
